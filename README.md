@@ -1,5 +1,7 @@
 # z-vue
 
+# 基于Vue3.0
+
 ## Project setup
 ```
 npm install
