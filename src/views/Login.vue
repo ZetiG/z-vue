@@ -10,6 +10,7 @@
       </el-form-item>
       <el-form-item label="验证码:" prop="validate">
         <el-input style="width:40%; padding-left: 15px" v-model="loginForm.validate" autocomplete="off" placeholder="请输入验证码"></el-input>
+           <img src="codeImg" @click="getImgCode" alt="图片加载失败"/>
       </el-form-item>
       <el-form-item style="padding-left: 23%; padding-top: 3%">
         <el-button round type="primary" @click="login('loginForm')">登录账号</el-button>
@@ -42,7 +43,8 @@ export default {
           { min: 4, max: 4, message: '验证码长度为4个字符', trigger: 'blur' }
         ]
       },
-      response: {}
+      response: {},
+      codeImg: '' // 图片验证码
     }
   },
   methods: {
@@ -83,6 +85,19 @@ export default {
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()
+    },
+    getImgCode () {
+      this.$axios.get('/proof/captcha')
+        .then(res => {
+          console.log('success->', res.data)
+
+          console.log('base64->', 'base64')
+          // this.codeImg = base64
+        })
+        .catch(() => {
+          console.log('err->')
+          this.$message.error('获取验证码失败！')
+        })
     }
   }
 }

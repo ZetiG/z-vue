@@ -40,10 +40,10 @@ export default {
       this.dialogVisible = true
       console.log('放大预览->', file)
     },
-    submitForm () {
+    submitForm () { // headers: 'Content-Type: application/x-www-form-urlencoded'
       this.$axios({
         method: 'post',
-        url: '/api/upload', // todo 待完成
+        url: '/api/upload',
         data: {
           urls: this.urls
         },
