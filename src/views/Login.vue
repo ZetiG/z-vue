@@ -10,7 +10,7 @@
       </el-form-item>
       <el-form-item label="验证码:" prop="validate">
         <el-input style="width:40%; padding-left: 15px" v-model="loginForm.validate" autocomplete="off" placeholder="请输入验证码"></el-input>
-           <img src="codeImg" @click="getImgCode" alt="图片加载失败"/>
+        <img :src="codeImg" @click="getImgCode" alt="图片加载失败"/>
       </el-form-item>
       <el-form-item style="padding-left: 23%; padding-top: 3%">
         <el-button round type="primary" @click="login('loginForm')">登录账号</el-button>
@@ -87,15 +87,13 @@ export default {
       this.$refs[formName].resetFields()
     },
     getImgCode () {
-      this.$axios.get('/proof/captcha')
+      this.$axios.get('/proof/captcha', {
+        responseType: 'arraybuffer'
+      })
         .then(res => {
-          console.log('success->', res.data)
-
-          console.log('base64->', 'base64')
-          // this.codeImg = base64
+          this.codeImg = 'data:image/png;base64,' + btoa(new Uint8Array(res.data).reduce((data, byte) => data + String.fromCharCode(byte), ''))
         })
         .catch(() => {
-          console.log('err->')
           this.$message.error('获取验证码失败！')
         })
     }
@@ -128,7 +126,9 @@ export default {
     color: #505458;
     font-size: x-large;
   }
-
+  /*.input_style{*/
+  /*  */
+  /*}*/
   .el-col {
     border-radius: 4px;
   }
